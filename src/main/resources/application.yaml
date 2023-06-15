@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gameaddict
+    username: postgres
+    password: Nda@03051998
+    driver-class-name: org.postgresql.Driver
+cloud:
+  aws:
+    bucket-name: game-addict
+    credentials:
+      access-key: AKIAWPLR6LW7ZJV4GFWB
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    base-url: https://game-addict.s3.ap-northeast-2.amazonaws.com/
