@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,10 @@ public enum ApplicationRole {
         this.permissions = permissions;
     }
 
-    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
-        Set<SimpleGrantedAuthority> simpleGrantedAuthorities = getPermissions().stream()
+    public List<SimpleGrantedAuthority> getGrantedAuthorities() {
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         simpleGrantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return  simpleGrantedAuthorities;
     }

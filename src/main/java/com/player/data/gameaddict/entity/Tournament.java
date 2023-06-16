@@ -1,12 +1,12 @@
 package com.player.data.gameaddict.entity;
 
 import com.player.data.gameaddict.model.request.TournamentRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +20,15 @@ public class Tournament extends BaseEntity {
     @Column(name = "tour_name")
     private String tourName;
 
+    @OneToMany (
+            mappedBy = "tournament",
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST, // object has been update/delete in database,
+                    CascadeType.REMOVE //object hase been remove from database
+            }
+    )
+    private List<Team> teams =  new ArrayList<>();
     public Tournament(TournamentRequest request) {
         this.tourName = request.getTourName();
     }

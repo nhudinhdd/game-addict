@@ -1,17 +1,17 @@
 package com.player.data.gameaddict.security;
 
-import com.player.data.gameaddict.common.enums.ApplicationRole;
+import com.player.data.gameaddict.auth.ApplicationUserService;
+import io.netty.handler.codec.base64.Base64Encoder;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static com.player.data.gameaddict.common.enums.ApplicationPermission.*;
@@ -21,6 +21,13 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class ApplicationSecurityConfig {
+
+    private final ApplicationUserService userService;
+
+    @Autowired
+    public ApplicationSecurityConfig(ApplicationUserService userService) {
+        this.userService = userService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,23 +41,18 @@ public class ApplicationSecurityConfig {
                         .requestMatchers("/management/api/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(daoAuthenticationProvider())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults());
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails admin = User.withUsername("hach")
-                .password(encoder.encode("hacheery"))
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
-        UserDetails user = User.withUsername("user")
-                .password(encoder.encode("pwd1"))
-                .authorities(MANAGER.getGrantedAuthorities())
-                .roles()
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userService);
+        return  provider;
     }
 
     @Bean

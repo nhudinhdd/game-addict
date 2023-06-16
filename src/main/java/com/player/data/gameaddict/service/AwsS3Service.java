@@ -24,7 +24,7 @@ public class AwsS3Service {
         this.awsCloudConfigValue = awsCloudConfigValue;
     }
 
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file) throws IOException {
         String fileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
         try {
             log.info("start upload file to s3 with fileName = {}", fileName);
@@ -35,10 +35,10 @@ public class AwsS3Service {
             return fileName;
         } catch (IOException ioe) {
             log.info("upload file to s3 failed with fileName = {}, ex = {}", fileName, ioe.getMessage());
-            return null;
+            throw new IOException("File upload invalid");
         } catch (AmazonServiceException serviceException) {
             log.info("upload file to s3 failed with fileName = {}, ex= {}", fileName, serviceException.getMessage());
-            return null;
+            throw new AmazonServiceException("File upload invalid");
         }
     }
 }

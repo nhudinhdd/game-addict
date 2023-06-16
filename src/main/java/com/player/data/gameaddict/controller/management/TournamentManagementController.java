@@ -1,4 +1,4 @@
-package com.player.data.gameaddict.controller.admin;
+package com.player.data.gameaddict.controller.management;
 
 import com.player.data.gameaddict.model.request.TournamentRequest;
 import com.player.data.gameaddict.model.response.MetaDataRes;
@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("management/api")
-public class TournamentAdminController {
+@RequestMapping("management/api/tour")
+public class TournamentManagementController {
 
     private final TournamentService tournamentService;
 
-    public TournamentAdminController(TournamentService tournamentService) {
+    public TournamentManagementController(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
     }
 

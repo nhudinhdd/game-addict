@@ -4,6 +4,7 @@ public enum MetaDataEnum {
     SUCCESS(1,  "Success"),
     FILE_ERROR(1001, "File invalid"),
     ID_INVALID(1002, "Id input invalid"),
+    INTERNAL_SERVER_ERROR(500, "Internal server error"),
     ;
     private int code;
     private String message;
