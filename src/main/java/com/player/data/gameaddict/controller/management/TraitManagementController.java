@@ -1,7 +1,7 @@
 package com.player.data.gameaddict.controller.management;
 
 import com.player.data.gameaddict.model.request.TraitRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.model.response.trait.TraitInsertResponse;
 import com.player.data.gameaddict.service.TraitService;
 import org.springframework.http.HttpStatus;

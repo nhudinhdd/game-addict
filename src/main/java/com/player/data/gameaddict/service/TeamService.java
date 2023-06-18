@@ -1,16 +1,14 @@
 package com.player.data.gameaddict.service;
 
-import com.google.common.base.Strings;
 import com.player.data.gameaddict.common.enums.MetaDataEnum;
 import com.player.data.gameaddict.entity.Team;
 import com.player.data.gameaddict.entity.Tournament;
 import com.player.data.gameaddict.model.request.TeamRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.repository.TeamRepository;
 import com.player.data.gameaddict.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -32,7 +30,7 @@ public class TeamService {
         Optional<Tournament> tournamentOptional = tournamentRepository.findById(teamRequest.getTourID());
         if(tournamentOptional.isEmpty())  return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         teamRequest.setTeamLogo(awsS3Service.upload(teamRequest.getTeamLogoFile()));
-        Team team = new Team(teamRequest, tournamentOptional.get());
+        Team team = new Team(teamRequest, tournamentOptional.get(), true);
         teamRepository.save(team);
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }

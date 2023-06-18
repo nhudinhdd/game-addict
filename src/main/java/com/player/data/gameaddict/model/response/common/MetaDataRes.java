@@ -1,4 +1,4 @@
-package com.player.data.gameaddict.model.response;
+package com.player.data.gameaddict.model.response.common;
 
 
 import com.player.data.gameaddict.common.enums.MetaDataEnum;
@@ -24,8 +24,4 @@ public class MetaDataRes <T> {
         this.message  = metaDataEnum.getMessage();
         this.data = data;
     }
-
-//    public String getMetaResponse() {
-//        return "{code: " + this.code+ " message: "+ this.message + "}";
-//    }
 }

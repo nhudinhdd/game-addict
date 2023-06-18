@@ -4,11 +4,12 @@ import com.player.data.gameaddict.model.request.TeamRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
-public class Team extends BaseEntity{
+public class Team extends BaseEntity {
     @Id
     @Column(name = "team_id")
     private String teamID = UUID.randomUUID().toString();
@@ -22,11 +23,18 @@ public class Team extends BaseEntity{
     private String teamName;
     @Column(name = "team_logo")
     private String teamLogo;
+    @OneToMany(
+            mappedBy = "team",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<PlayerTeam> playerTeams;
 
-    public Team(TeamRequest teamRequest, Tournament tournament) {
+    public Team(TeamRequest teamRequest, Tournament tournament, boolean isNew) {
         this.teamName = teamRequest.getTeamName();
         this.teamLogo = teamRequest.getTeamLogo();
         this.tournament = tournament;
+        setNew(isNew);
     }
 
     public Team() {
@@ -38,5 +46,10 @@ public class Team extends BaseEntity{
         this.teamLogo = teamRequest.getTeamLogo();
         this.teamID = teamID;
         this.tournament = tournament;
+    }
+
+    @Override
+    public String getId() {
+        return teamID;
     }
 }

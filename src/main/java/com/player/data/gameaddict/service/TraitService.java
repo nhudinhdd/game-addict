@@ -4,7 +4,7 @@ import com.player.data.gameaddict.common.enums.MetaDataEnum;
 import com.player.data.gameaddict.config.AwsCloudConfigValue;
 import com.player.data.gameaddict.entity.Trait;
 import com.player.data.gameaddict.model.request.TraitRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.model.response.trait.TraitGetResponse;
 import com.player.data.gameaddict.model.response.trait.TraitInsertResponse;
 import com.player.data.gameaddict.repository.TraitRepository;
@@ -35,10 +35,9 @@ public class TraitService {
         MetaDataRes<TraitInsertResponse> metaDataRes;
         String fileNameS3 = awsS3Service.upload(traitRequest.getTraitLogo());
         traitRequest.setFileNameTraitLogo(fileNameS3);
-        Trait trait = new Trait(traitRequest);
+        Trait trait = new Trait(traitRequest, true);
         traitRepository.save(trait);
         metaDataRes = new MetaDataRes<>(MetaDataEnum.SUCCESS, new TraitInsertResponse(fileNameS3));
-
         log.info("Finish insert player trait metaDataRes = {}", metaDataRes);
         return metaDataRes;
     }

@@ -4,7 +4,7 @@ import com.player.data.gameaddict.common.enums.MetaDataEnum;
 import com.player.data.gameaddict.entity.Team;
 import com.player.data.gameaddict.entity.Tournament;
 import com.player.data.gameaddict.model.request.TournamentRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.repository.TournamentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class TournamentService {
     }
 
     public MetaDataRes<?> insertTournament(TournamentRequest request) {
-        Tournament tournament = new Tournament(request);
+        Tournament tournament = new Tournament(request, true);
         tournamentRepository.save(tournament);
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }

@@ -29,12 +29,18 @@ public class Tournament extends BaseEntity {
             }
     )
     private List<Team> teams =  new ArrayList<>();
-    public Tournament(TournamentRequest request) {
+    public Tournament(TournamentRequest request, boolean isNew) {
         this.tourName = request.getTourName();
+        setNew(isNew);
     }
 
     public Tournament(TournamentRequest request, String tourID) {
         this.tourName = request.getTourName();
         this.tourID = tourID;
+    }
+
+    @Override
+    public String getId() {
+        return tourID;
     }
 }

@@ -1,8 +1,7 @@
 package com.player.data.gameaddict.controller;
 
 import com.player.data.gameaddict.entity.Tournament;
-import com.player.data.gameaddict.model.request.TournamentRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.service.TournamentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

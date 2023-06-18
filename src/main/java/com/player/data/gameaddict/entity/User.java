@@ -21,4 +21,9 @@ public class User extends BaseEntity{
     private String avatar;
     @Column(name = "role")
     private String role;
+
+    @Override
+    public String getId() {
+        return userID;
+    }
 }

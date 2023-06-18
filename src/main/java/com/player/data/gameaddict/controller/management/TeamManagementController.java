@@ -1,7 +1,7 @@
 package com.player.data.gameaddict.controller.management;
 
 import com.player.data.gameaddict.model.request.TeamRequest;
-import com.player.data.gameaddict.model.response.MetaDataRes;
+import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
