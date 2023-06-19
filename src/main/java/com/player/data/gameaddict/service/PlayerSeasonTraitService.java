@@ -31,18 +31,19 @@ public class PlayerSeasonTraitService {
     public MetaDataRes<?> insertPlayerSeasonTrait(PlayerSeasonTraitRequest request) {
         Optional<PlayerSeason> playerSeasonOptional = playerSeasonRepository.findById(request.getPlayerSeasonID());
         if(playerSeasonOptional.isEmpty()) {
-            log.info("playerSeasonOptional empty with id = {}", request.getPlayerSeasonID());
+            log.info("Invalid playerSeasonID = {}", request.getPlayerSeasonID());
             return new MetaDataRes<>(MetaDataEnum.PLAYER_SEASON_ID_INVALID);
         }
 
         Optional<Trait> traitOptional = traitRepository.findById(request.getTraitID());
         if(traitOptional.isEmpty()) {
-            log.info("traitOptional empty with id = {}", request.getTraitID());
+            log.info("Invalid traitID = {}", request.getTraitID());
             return new MetaDataRes<>(MetaDataEnum.TRAIT_ID_INVALID);
         }
-
         PlayerSeasonTrait playerSeasonTrait = new PlayerSeasonTrait(playerSeasonOptional.get(), traitOptional.get());
+        log.info("Start inset playerSeasonTrait={}", playerSeasonTrait);
         playerSeasonTraitRepository.save(playerSeasonTrait);
+        log.info("Finish inset playerSeasonTraitID={}", playerSeasonTrait.getPsTraitID());
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 }

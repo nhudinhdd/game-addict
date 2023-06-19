@@ -43,11 +43,13 @@ public class TraitService {
     }
 
     public MetaDataRes<List<TraitGetResponse>> getTraits() {
+        log.info("Start get traits");
         List<TraitGetResponse> traitGetResponses = new ArrayList<>();
         List<Trait> traits = traitRepository.findAll();
         if (!CollectionUtils.isEmpty(traits)) {
             traitGetResponses = traits.stream().map(trait -> new TraitGetResponse(trait, awsCloudConfigValue.getBaseURL())).collect(Collectors.toList());
         }
+        log.info("Finish get traits with size={}", traitGetResponses.size());
         return new MetaDataRes<>(MetaDataEnum.SUCCESS, traitGetResponses);
     }
 
@@ -60,16 +62,21 @@ public class TraitService {
             trait.setDescription(traitRequest.getDescription());
             trait.setLogo(fileNameS3);
             trait.setName(traitRequest.getName());
+            log.info("Start update trait={}", trait);
             traitRepository.save(trait);
+            log.info("Finish update trait with traitID={}", traitID);
             metaDataRes = new MetaDataRes<>(MetaDataEnum.SUCCESS);
         } else {
+            log.warn("Invalid traitID={}", traitID);
             metaDataRes = new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
         return metaDataRes;
     }
 
     public MetaDataRes<?> deleteTrait(String traitID) {
+        log.info("Start delete trait with traitID={}", traitID);
         traitRepository.deleteById(traitID);
+        log.info("Finish delete trait with traitID={}", traitID);
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 }

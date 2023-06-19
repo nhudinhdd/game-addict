@@ -19,3 +19,5 @@ cloud:
     region:
       static: ap-northeast-2
     base-url: https://game-addict.s3.ap-northeast-2.amazonaws.com/
+log:
+  file-name: D:\My Project\Log\game-addict\log_.%d{yyyy-MM-dd}.log

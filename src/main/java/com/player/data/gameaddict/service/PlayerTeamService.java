@@ -31,13 +31,13 @@ public class PlayerTeamService {
     public MetaDataRes<?> insertPlayerTeam(PlayerTeamRequest request) {
         Optional<PlayerInfo> playerInfoOptional = playerInfoRepository.findById(request.getPlayerID());
         if(playerInfoOptional.isEmpty()) {
-            log.info("playerInfoOptional empty with id = {}", request.getPlayerID());
+            log.info("Invalid playerID = {}", request.getPlayerID());
             return new MetaDataRes<>(MetaDataEnum.PLAYER_INFO_ID_INVALID);
         }
 
         Optional<Team> teamOptional = teamRepository.findById(request.getTeamId());
         if(teamOptional.isEmpty()) {
-            log.info("teamOptional empty with id = {}", request.getTeamId());
+            log.info("Invalid teamID = {}", request.getTeamId());
             return new MetaDataRes<>(MetaDataEnum.TEAM_ID_INVALID);
         }
 

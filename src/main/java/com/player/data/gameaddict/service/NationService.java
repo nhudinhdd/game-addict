@@ -34,48 +34,57 @@ public class NationService {
     }
 
     public MetaDataRes<List<NationRes>> getListNationByContinentID(String continentID) {
+        log.info("Start get list nation by continentID = {}", continentID);
         List<NationRes> nationResList = new ArrayList<>();
         Optional<Continent> continentOptional = continentRepository.findById(continentID);
+        log.info("Get continent optional with isPresent = {}", continentOptional.isPresent());
         if(continentOptional.isPresent()) {
             nationResList = continentOptional.get().getNations().stream().map(NationRes::new).toList();
         }
+        log.info("Finish get list nation with size = {}", nationResList.size());
         return new MetaDataRes<>(MetaDataEnum.SUCCESS, nationResList);
     }
 
     public MetaDataRes<?> insertNation(NationRequest nationRequest) throws IOException {
         Optional<Continent> continentOptional = continentRepository.findById(nationRequest.getContinentID());
         if(continentOptional.isEmpty()) {
-            log.info("continentOptional empty by continentID = {}", nationRequest.getContinentID());
+            log.warn("Invalid continentID={}", nationRequest.getContinentID());
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
         nationRequest.setEnsign(awsS3Service.upload(nationRequest.getEnsignLogo()));
         Nation nation = new Nation(nationRequest, continentOptional.get(), true);
+        log.info("Start insert nation = {}", nation);
         nationRepository.save(nation);
+        log.info("Finish insert nation");
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
     public MetaDataRes<?> updateNation(NationRequest nationRequest, String nationID) throws IOException {
         if(!nationRepository.existsById(nationID)) {
-            log.info("nationOptional empty by nationID = {}",nationID);
+            log.warn("Invalid nationID = {}",nationID);
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
         if(!continentRepository.existsById(nationRequest.getContinentID())) {
-            log.info("continentOptional empty by continentID = {}", nationRequest.getContinentID());
+            log.warn("Invalid continentID = {}", nationRequest.getContinentID());
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
         nationRequest.setEnsign(awsS3Service.upload(nationRequest.getEnsignLogo()));
         Nation nation = new Nation(nationRequest, nationRequest.getContinentID(), nationID);
+        log.info("Start update nation = {}", nation);
         nationRepository.save(nation);
+        log.info("Finish update nation");
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
     public MetaDataRes<NationRes> getNationDetail(String nationID) {
+        log.info("Start get nation detail by nationID = {}", nationID);
         Optional<Nation> nationOptional = nationRepository.findById(nationID);
         if(nationOptional.isEmpty()) {
-            log.info("nationOptional empty by nationID = {}",nationID);
+            log.info("Invalid nationID = {}",nationID);
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
         NationRes nationRes = new NationRes(nationOptional.get());
+        log.info("Finish get nation detail by nationID = {}", nationID);
         return  new MetaDataRes<>(MetaDataEnum.SUCCESS, nationRes);
     }
 }

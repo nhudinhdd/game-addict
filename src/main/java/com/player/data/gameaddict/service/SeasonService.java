@@ -28,33 +28,43 @@ public class SeasonService {
     }
 
     public MetaDataRes<List<SeasonRes>> getListSeason() {
+        log.info("Start get list season");
         List<SeasonRes> seasonResList = new ArrayList<>();
         List<Season> seasons = seasonRepository.findAll();
         if (!CollectionUtils.isEmpty(seasons)) {
-            log.info("getListSeason empty");
             seasonResList = seasons.stream().map(SeasonRes::new).toList();
         }
+        log.info("Finish get list season with size={}", seasonResList.size());
         return new MetaDataRes<>(MetaDataEnum.SUCCESS, seasonResList);
     }
 
     public MetaDataRes<?> insertSeason(SeasonRequest seasonRequest) throws IOException {
         seasonRequest.setLogo(awsS3Service.upload(seasonRequest.getLogoFile()));
         Season season = new Season(seasonRequest, true);
+        log.info("Start insert season={}", season);
         seasonRepository.save(season);
+        log.info("Finish insert season with seasonID={}", season.getSeasonID());
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
     public MetaDataRes<?> updateSeason(SeasonRequest seasonRequest, String seasonID) throws IOException {
         Optional<Season> seasonOptional = seasonRepository.findById(seasonID);
-        if(seasonOptional.isEmpty()) return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
+        if(seasonOptional.isEmpty()){
+            log.warn("Invalid seasonID={}", seasonID);
+            return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
+        }
         seasonRequest.setLogo(awsS3Service.upload(seasonRequest.getLogoFile()));
         Season season = new Season(seasonRequest, seasonID);
+        log.info("Start update season={}", season);
         seasonRepository.save(season);
+        log.info("Finish update seasonID={}", seasonID);
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
     public MetaDataRes<?> deleteSeason(String seasonID) {
+        log.info("Start delete season by id={}", seasonID);
         seasonRepository.deleteById(seasonID);
+        log.info("Finish delete season by id={}", seasonID);
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 }
