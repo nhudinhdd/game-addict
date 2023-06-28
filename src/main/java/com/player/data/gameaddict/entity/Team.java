@@ -1,6 +1,6 @@
 package com.player.data.gameaddict.entity;
 
-import com.player.data.gameaddict.model.request.TeamRequest;
+import com.player.data.gameaddict.model.request.player.TeamRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,6 +29,13 @@ public class Team extends BaseEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private List<PlayerTeam> playerTeams;
+
+    @Column(name = "alt_team_logo")
+    private String altTeamLogo;
+    @Column(name = "title_team_logo")
+    private String titleTeamLogo;
+    @Column(name = "caption_team_logo")
+    private String captionTeamLogo;
 
     public Team(TeamRequest teamRequest, Tournament tournament, boolean isNew) {
         this.teamName = teamRequest.getTeamName();

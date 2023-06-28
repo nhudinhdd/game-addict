@@ -10,6 +10,10 @@ spring:
     username: postgres
     password: Nda@03051998
     driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 cloud:
   aws:
     bucket-name: game-addict
@@ -21,3 +25,9 @@ cloud:
     base-url: https://game-addict.s3.ap-northeast-2.amazonaws.com/
 log:
   file-name: D:\My Project\Log\game-addict\log_.%d{yyyy-MM-dd}.log
+application:
+  security:
+    jwt:
+      secure: pmMstU8D5LqA8KDf8E3h2a++Wnp8SEGfdmgocs8rr1g=
+      access-expiration: 86400000 #a day
+      refresh-token: 604800000 #7 days

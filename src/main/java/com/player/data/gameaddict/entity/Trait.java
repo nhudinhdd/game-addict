@@ -1,11 +1,10 @@
 package com.player.data.gameaddict.entity;
 
-import com.player.data.gameaddict.model.request.TraitRequest;
+import com.player.data.gameaddict.model.request.player.TraitRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +21,13 @@ public class Trait extends BaseEntity {
     private String description;
     @Column(name = "logo")
     private String logo;
+    @Column(name = "alt_logo_trait")
+    private String altLogoTrait;
+    @Column(name = "title_logo_trait")
+    private String titleLogoTrait;
+    @Column(name = "caption_logo_trait")
+    private String captionLogoTrait;
+
     @OneToMany(
             mappedBy = "trait",
             fetch = FetchType.LAZY,

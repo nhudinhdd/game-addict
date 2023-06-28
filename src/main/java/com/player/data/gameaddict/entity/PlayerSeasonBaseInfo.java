@@ -7,11 +7,12 @@ public interface PlayerSeasonBaseInfo {
 
     String getPlayerID();
 
-    String getShortNamePlayerInfo();
+    String getFirstNamePlayerInfo();
 
-    String getFullNamePlayerInfo();
+    String getLastNamePlayerInfo();
 
     LocalDate getBirthday();
+    String getPlayerStory();
 
     String getNationID();
 
@@ -61,4 +62,13 @@ public interface PlayerSeasonBaseInfo {
     short getDef();
 
     short getPhy();
+    String getAltEnsign();
+    String getTitleEnsign();
+    String getCaptionEnsign();
+    String getAltLogoSeason();
+    String getTitleLogoSeason();
+    String getCaptionLogoSeason();
+    String getAltAvatar();
+    String getTitleAvatar();
+    String getCaptionAvatar();
 }

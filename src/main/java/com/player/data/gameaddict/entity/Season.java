@@ -1,8 +1,7 @@
 package com.player.data.gameaddict.entity;
 
-import com.player.data.gameaddict.model.request.SeasonRequest;
+import com.player.data.gameaddict.model.request.player.SeasonRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -21,6 +20,12 @@ public class Season extends BaseEntity {
     private String fullName;
     @Column(name = "logo")
     private String logo;
+    @Column(name = "alt_logo_season")
+    private String altLogoSeason;
+    @Column(name = "title_logo_season")
+    private String titleLogoSeason;
+    @Column(name = "caption_logo_season")
+    private String captionLogoSeason;
 
     @OneToMany(
             mappedBy = "season",
@@ -36,10 +41,13 @@ public class Season extends BaseEntity {
         setNew(isNew);
     }
 
-    public Season(String seasonID, String shortName, String fullName, String logo) {
+    public Season(String seasonID, String shortName, String fullName, String logo, String altLogoSeason, String titleLogoSeason, String captionLogoSeason) {
         this.seasonID = seasonID;
         this.shortName = shortName;
         this.fullName = fullName;
+        this.altLogoSeason = altLogoSeason;
+        this.titleLogoSeason = titleLogoSeason;
+        this.captionLogoSeason = captionLogoSeason;
         this.logo = logo;
     }
 

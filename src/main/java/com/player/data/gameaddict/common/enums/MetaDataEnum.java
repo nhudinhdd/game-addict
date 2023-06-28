@@ -11,6 +11,9 @@ public enum MetaDataEnum {
     TRAIT_ID_INVALID(1008, "Trait ID input invalid"),
     DATE_FORMAT_INVALID(1003, "Input string date invalid"),
     INTERNAL_SERVER_ERROR(500, "Internal server error"),
+    UNAUTHORIZED(401, "Unauthorized"),
+    USER_NAME_EXITS(1004, "User name has been exits"),
+    CONTINENT_ID_INVALID(1005, "Continent ID invalid"),
     ;
     private int code;
     private String message;

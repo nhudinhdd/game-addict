@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -25,7 +26,9 @@ public class AwsS3Service {
     }
 
     public String upload(MultipartFile file) throws IOException {
-        String fileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+        String fileName = "";
+        if(Objects.isNull(file)) return fileName;
+        fileName = awsCloudConfigValue.getBaseURL().concat(System.currentTimeMillis()+"_"+file.getOriginalFilename());
         try {
             log.info("start upload file to s3 with fileName = {}", fileName);
             ObjectMetadata metadata = new ObjectMetadata();

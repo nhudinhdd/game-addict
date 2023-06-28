@@ -1,6 +1,6 @@
 package com.player.data.gameaddict.entity;
 
-import com.player.data.gameaddict.model.request.NationRequest;
+import com.player.data.gameaddict.model.request.player.NationRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +27,12 @@ public class Nation extends BaseEntity {
     private String nationName;
     @Column(name = "ensign")
     private String ensign;
+    @Column(name = "alt_ensign")
+    private String altEnsign;
+    @Column(name = "title_ensign")
+    private String titleEnsign;
+    @Column(name = "caption_ensign")
+    private String captionEnsign;
     @OneToMany(
             mappedBy = "nation",
             fetch = FetchType.LAZY,
@@ -41,10 +47,13 @@ public class Nation extends BaseEntity {
         return nationID;
     }
 
-    public Nation(String nationID, String nationName, String ensign) {
+    public Nation(String nationID, String nationName, String ensign, String altEnsign, String titleEnsign, String captionEnsign) {
         this.nationID = nationID;
         this.nationName = nationName;
         this.ensign = ensign;
+        this.altEnsign = altEnsign;
+        this.titleEnsign = titleEnsign;
+        this.captionEnsign =captionEnsign;
     }
     public Nation(NationRequest nationRequest, Continent continent, boolean isNew) {
         this.nationName = nationRequest.getNationName();

@@ -12,7 +12,7 @@ import static com.player.data.gameaddict.common.enums.ApplicationPermission.*;
 
 public enum ApplicationRole {
 
-    ADMIN(Sets.newHashSet(MANAGER_CREATE, MANAGER_READ, MANAGER_UPDATE, MANAGER_DELETE)),
+    ADMIN(Sets.newHashSet(MANAGER_CREATE, MANAGER_READ, MANAGER_UPDATE, MANAGER_DELETE, ADMIN_CREATE)),
     MANAGER(Sets.newHashSet(MANAGER_CREATE, MANAGER_READ, MANAGER_UPDATE));
 
     private final Set<ApplicationPermission> permissions;

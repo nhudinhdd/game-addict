@@ -1,6 +1,6 @@
 package com.player.data.gameaddict.entity;
 
-import com.player.data.gameaddict.model.request.PlayerSeasonRequest;
+import com.player.data.gameaddict.model.request.player.PlayerSeasonRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

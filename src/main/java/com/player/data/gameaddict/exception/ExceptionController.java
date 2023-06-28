@@ -6,6 +6,7 @@ import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -33,5 +34,11 @@ public class ExceptionController {
     public ResponseEntity<MetaDataRes<?>> handleDateTimeParseEx(Exception e) {
         log.error("Failed in progress with exception: {}", e.getMessage());
         return new ResponseEntity<>(new MetaDataRes<>(MetaDataEnum.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<MetaDataRes<?>> handleAuthenticationException(AuthenticationException e) {
+        log.error("Unauthorized with e={}", e.getMessage());
+        return new ResponseEntity<>(new MetaDataRes<>(MetaDataEnum.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
     }
 }
