@@ -6,7 +6,6 @@ import com.player.data.gameaddict.model.response.auth.AuthenticationRes;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.service.auth.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

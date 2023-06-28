@@ -22,8 +22,6 @@ import java.util.Arrays;
 @Slf4j
 @RequiredArgsConstructor
 public class LoggingHandler {
-
-//    private final AuthenticationUtil authenticationUtil;
     private final String apiPointCut = ("within(com.player.data.gameaddict.controller..*)");
 
     @Pointcut(apiPointCut)

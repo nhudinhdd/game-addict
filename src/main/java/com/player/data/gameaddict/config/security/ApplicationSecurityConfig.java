@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.player.data.gameaddict.common.enums.ApplicationPermission.*;
 import static com.player.data.gameaddict.common.enums.ApplicationRole.ADMIN;
 import static com.player.data.gameaddict.common.enums.ApplicationRole.MANAGER;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @RequiredArgsConstructor

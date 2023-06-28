@@ -1,6 +1,5 @@
 package com.player.data.gameaddict.service.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.player.data.gameaddict.common.enums.ApplicationRole;
 import com.player.data.gameaddict.common.enums.MetaDataEnum;
 import com.player.data.gameaddict.entity.User;
@@ -12,20 +11,16 @@ import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.repository.auth.UserRepository;
 import com.player.data.gameaddict.service.AwsS3Service;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.jpa.repository.Meta;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 

@@ -1,8 +1,7 @@
 package com.player.data.gameaddict.controller.player;
 
-import com.player.data.gameaddict.model.response.player.ContinentRes;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
-import com.player.data.gameaddict.model.response.player.NationRes;
+import com.player.data.gameaddict.model.response.player.ContinentRes;
 import com.player.data.gameaddict.service.player.ContinentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
