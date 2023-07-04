@@ -71,4 +71,6 @@ public interface PlayerSeasonBaseInfo {
     String getAltAvatar();
     String getTitleAvatar();
     String getCaptionAvatar();
+
+    short getOvr();
 }

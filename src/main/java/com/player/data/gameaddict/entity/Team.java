@@ -41,6 +41,9 @@ public class Team extends BaseEntity {
         this.teamName = teamRequest.getTeamName();
         this.teamLogo = teamRequest.getTeamLogo();
         this.tournament = tournament;
+        this.altTeamLogo = teamRequest.getAltLogo();
+        this.titleTeamLogo = teamRequest.getTitleLogo();
+        this.captionTeamLogo = teamRequest.getCaptionLogo();
         setNew(isNew);
     }
 
@@ -51,6 +54,9 @@ public class Team extends BaseEntity {
     public Team(TeamRequest teamRequest, String teamID, Tournament tournament) {
         this.teamName = teamRequest.getTeamName();
         this.teamLogo = teamRequest.getTeamLogo();
+        this.altTeamLogo = teamRequest.getAltLogo();
+        this.titleTeamLogo =teamRequest.getTitleLogo();
+        this.captionTeamLogo = teamRequest.getCaptionLogo();
         this.teamID = teamID;
         this.tournament = tournament;
     }

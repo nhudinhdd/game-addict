@@ -1,10 +1,12 @@
 package com.player.data.gameaddict.entity;
 
 import com.player.data.gameaddict.model.request.player.NationRequest;
+import com.player.data.gameaddict.model.request.player.NationUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,13 +61,20 @@ public class Nation extends BaseEntity {
         this.nationName = nationRequest.getNationName();
         this.ensign = nationRequest.getEnsign();
         this.continent = continent;
+        this.altEnsign = nationRequest.getAltEnsign();
+        this.titleEnsign = nationRequest.getTitleEnsign();
+        this.captionEnsign = nationRequest.getCaptionEnsign();
         setNew(isNew);
     }
 
-    public Nation(NationRequest nationRequest, String continentID, String nationID) {
+    public Nation(NationUpdateRequest nationRequest, String continentID, String nationID) {
         this.nationName = nationRequest.getNationName();
         this.ensign = nationRequest.getEnsign();
         this.continent = new Continent(continentID);
         this.nationID = nationID;
+        this.altEnsign = nationRequest.getAltEnsign();
+        this.titleEnsign = nationRequest.getTitleEnsign();
+        this.captionEnsign = nationRequest.getCaptionEnsign();
     }
+
 }

@@ -1,6 +1,7 @@
 package com.player.data.gameaddict.model.response.player;
 
 import com.player.data.gameaddict.entity.PlayerInfo;
+import com.player.data.gameaddict.entity.PlayerSeason;
 import com.player.data.gameaddict.entity.PlayerSeasonBaseInfo;
 import com.player.data.gameaddict.entity.Season;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class PlayerSeasonRes {
     private String altAvatar;
     private String titleAvatar;
     private String captionAvatar;
+    private short ovr;
 
     public PlayerSeasonRes(PlayerSeasonBaseInfo info) {
         this.playerSeasonID = info.getPlayerSeasonID();
@@ -56,5 +58,33 @@ public class PlayerSeasonRes {
         this.altAvatar = info.getAltAvatar();
         this.titleAvatar = info.getTitleAvatar();
         this.captionAvatar = info.getCaptionAvatar();
+        this.ovr = info.getOvr();
+    }
+
+
+    public PlayerSeasonRes(PlayerSeason info) {
+        this.playerSeasonID = info.getPlayerSeasonID();
+        this.seasonRes = new SeasonRes(info.getSeason());
+        this.playerInfoRes = new PlayerInfoRes(info.getPlayerInfo());
+        this.playerPosition = info.getPlayerPosition();
+        this.playerSubPosition = info.getPlayerSubPosition();
+        this.avatar = info.getAvatar();
+        this.salary = info.getSalary();
+        this.height = info.getHeight();
+        this.weight = info.getWeight();
+        this.fitness = info.getFitness();
+        this.leftFoot = info.getLeftFoot();
+        this.rightFoot = info.getRightFoot();
+        this.skill = info.getSkill();
+        this.pac = info.getPac();
+        this.sho = info.getSho();
+        this.pas = info.getPas();
+        this.dri = info.getDri();
+        this.def = info.getDef();
+        this.phy = info.getPhy();
+        this.altAvatar = info.getAltAvatar();
+        this.titleAvatar = info.getTitleAvatar();
+        this.captionAvatar = info.getCaptionAvatar();
+        this.ovr = info.getOvr();
     }
 }

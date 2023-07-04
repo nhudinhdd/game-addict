@@ -9,7 +9,9 @@ public class TraitRequest {
 
     private String name;
     private String description;
-    private MultipartFile traitLogo;
+    private String altLogo;
+    private String titleLogo;
+    private String captionLogo;
     @JsonIgnore
     private String fileNameTraitLogo;
 }

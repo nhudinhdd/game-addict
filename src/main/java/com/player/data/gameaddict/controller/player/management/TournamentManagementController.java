@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/management/tour")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class TournamentManagementController {
 
     private final TournamentService tournamentService;

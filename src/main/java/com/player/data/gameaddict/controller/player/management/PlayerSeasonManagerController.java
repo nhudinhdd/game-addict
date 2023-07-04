@@ -7,23 +7,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @RestController
 @RequestMapping("api/management/player-season")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PlayerSeasonManagerController {
 
     private final PlayerSeasonService playerSeasonService;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<MetaDataRes<?>> insertPlayerSeason(@ModelAttribute PlayerSeasonRequest playerSeasonRequest) throws IOException {
-        MetaDataRes<?> metaDataRes = playerSeasonService.insertPlayerSeason(playerSeasonRequest);
+    public ResponseEntity<MetaDataRes<?>> insertPlayerSeason(@ModelAttribute PlayerSeasonRequest playerSeasonRequest,
+                                                             @RequestParam("player-season-avatar")MultipartFile playerSeasonAvatar) throws Exception {
+        MetaDataRes<?> metaDataRes = playerSeasonService.insertPlayerSeason(playerSeasonRequest, playerSeasonAvatar);
+        return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "{player-season-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MetaDataRes<?>> updatePlayerSeason(@ModelAttribute PlayerSeasonRequest playerSeasonRequest,
+                                                             @PathVariable("player-season-id") String playerSeasonID,
+                                                             @RequestParam(value = "player-season-avatar", required = false)MultipartFile playerSeasonAvatar) throws Exception {
+        MetaDataRes<?> metaDataRes = playerSeasonService.updatePlayerSeason(playerSeasonRequest, playerSeasonID, playerSeasonAvatar);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 }

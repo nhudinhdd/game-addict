@@ -20,12 +20,23 @@ public class Season extends BaseEntity {
     private String fullName;
     @Column(name = "logo")
     private String logo;
+    @Column(name = "big-logo")
+    private String bigLogo;
     @Column(name = "alt_logo_season")
     private String altLogoSeason;
     @Column(name = "title_logo_season")
     private String titleLogoSeason;
     @Column(name = "caption_logo_season")
     private String captionLogoSeason;
+
+    @Column(name = "background_logo")
+    private String backgroundLogo;
+    @Column(name = "alt_background_logo")
+    private String altBackgroundLogo;
+    @Column(name = "title_background_logo")
+    private String titleBackgroundLogo;
+    @Column(name = "caption_background_logo")
+    private String captionBackgroundLogo;
 
     @OneToMany(
             mappedBy = "season",
@@ -38,10 +49,19 @@ public class Season extends BaseEntity {
         this.shortName = seasonRequest.getShortName();
         this.fullName = seasonRequest.getFullName();
         this.logo = seasonRequest.getLogo();
+        this.bigLogo = seasonRequest.getBigLogo();
+        this.altLogoSeason = seasonRequest.getAltLogo();
+        this.titleLogoSeason = seasonRequest.getTitleLogo();
+        this.captionLogoSeason = seasonRequest.getCaptionLogo();
+        this.backgroundLogo = seasonRequest.getBackgroundLogo();
+        this.altBackgroundLogo =seasonRequest.getAltBackgroundLogo();
+        this.titleBackgroundLogo = seasonRequest.getTitleBackgroundLogo();
+        this.captionBackgroundLogo = seasonRequest.getCaptionBackgroundLogo();
         setNew(isNew);
     }
 
-    public Season(String seasonID, String shortName, String fullName, String logo, String altLogoSeason, String titleLogoSeason, String captionLogoSeason) {
+    public Season(String seasonID, String shortName, String fullName, String logo,
+                  String altLogoSeason, String titleLogoSeason, String captionLogoSeason) {
         this.seasonID = seasonID;
         this.shortName = shortName;
         this.fullName = fullName;
@@ -56,6 +76,14 @@ public class Season extends BaseEntity {
         this.shortName = seasonRequest.getShortName();
         this.fullName = seasonRequest.getFullName();
         this.logo = seasonRequest.getLogo();
+        this.bigLogo = seasonRequest.getBigLogo();
+        this.altLogoSeason = seasonRequest.getAltLogo();
+        this.titleLogoSeason = seasonRequest.getTitleLogo();
+        this.captionLogoSeason = seasonRequest.getCaptionLogo();
+        this.backgroundLogo = seasonRequest.getBackgroundLogo();
+        this.altBackgroundLogo = seasonRequest.getAltBackgroundLogo();
+        this.titleBackgroundLogo = seasonRequest.getTitleBackgroundLogo();
+        this.captionBackgroundLogo = seasonRequest.getCaptionBackgroundLogo();
     }
 
     public Season() {

@@ -2,16 +2,20 @@ package com.player.data.gameaddict.model.request.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class PlayerSeasonRequest {
 
     private String playerID;
     private String seasonID;
+    private String traitIDs;
     private String playerPosition;
     private String playerSubPosition;
-    private MultipartFile avatarFile;
+    private String altAvatar;
+    private String titleAvatar;
+    private String captionAvatar;
     @JsonIgnore
     private String avatar;
     private String reputation;
@@ -49,6 +53,7 @@ public class PlayerSeasonRequest {
     private short intercep;
     private short tackleSliding;
     private short strength;
+    private short stamina;
     private short aggression;
     private short jumping;
     private short composure;
@@ -63,4 +68,5 @@ public class PlayerSeasonRequest {
     private short dri;
     private short def;
     private short phy;
+    private short ovr;
 }

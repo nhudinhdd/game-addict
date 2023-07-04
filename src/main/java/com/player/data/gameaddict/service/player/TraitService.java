@@ -5,16 +5,19 @@ import com.player.data.gameaddict.config.AwsCloudConfigValue;
 import com.player.data.gameaddict.entity.Trait;
 import com.player.data.gameaddict.model.request.player.TraitRequest;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
-import com.player.data.gameaddict.model.response.player.trait.TraitGetResponse;
-import com.player.data.gameaddict.model.response.player.trait.TraitInsertResponse;
+import com.player.data.gameaddict.model.response.player.TraitResponse;
 import com.player.data.gameaddict.repository.player.TraitRepository;
 import com.player.data.gameaddict.service.AwsS3Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,47 +34,47 @@ public class TraitService {
         this.awsCloudConfigValue = awsCloudConfigValue;
     }
 
-    public MetaDataRes<TraitInsertResponse> insertPlayerTrait(TraitRequest traitRequest) throws IOException {
+    public MetaDataRes<?> insertPlayerTrait(TraitRequest traitRequest, MultipartFile traitLogo) throws IOException {
         log.info("Start insert player trait with name = {}, description = {}", traitRequest.getName(), traitRequest.getDescription());
-        MetaDataRes<TraitInsertResponse> metaDataRes;
-        String fileNameS3 = awsS3Service.upload(traitRequest.getTraitLogo());
-        traitRequest.setFileNameTraitLogo(fileNameS3);
+        MetaDataRes<?> metaDataRes;
+        traitRequest.setFileNameTraitLogo(awsS3Service.upload(traitLogo));
         Trait trait = new Trait(traitRequest, true);
         traitRepository.save(trait);
-        metaDataRes = new MetaDataRes<>(MetaDataEnum.SUCCESS, new TraitInsertResponse(fileNameS3));
+        metaDataRes = new MetaDataRes<>(MetaDataEnum.SUCCESS);
         log.info("Finish insert player trait metaDataRes = {}", metaDataRes);
         return metaDataRes;
     }
 
-    public MetaDataRes<List<TraitGetResponse>> getTraits() {
+    public MetaDataRes<List<TraitResponse>> getTraits() {
         log.info("Start get traits");
-        List<TraitGetResponse> traitGetResponses = new ArrayList<>();
+        List<TraitResponse> traitRespons = new ArrayList<>();
         List<Trait> traits = traitRepository.findAll();
         if (!CollectionUtils.isEmpty(traits)) {
-            traitGetResponses = traits.stream().map(trait -> new TraitGetResponse(trait, awsCloudConfigValue.getBaseURL())).collect(Collectors.toList());
+            traitRespons = traits.stream().map(TraitResponse::new).collect(Collectors.toList());
         }
-        log.info("Finish get traits with size={}", traitGetResponses.size());
-        return new MetaDataRes<>(MetaDataEnum.SUCCESS, traitGetResponses);
+        log.info("Finish get traits with size={}", traitRespons.size());
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS, traitRespons);
     }
 
-    public MetaDataRes<?> updateTrait(TraitRequest traitRequest, String traitID) throws IOException {
+    public MetaDataRes<TraitResponse> getTraitDetail(String traitID) {
+        log.info("Start get trait detail with traitID={}", traitID);
         Optional<Trait> traitOptional = traitRepository.findById(traitID);
-        MetaDataRes<?> metaDataRes;
-        if (traitOptional.isPresent()) {
-            String fileNameS3 = awsS3Service.upload(traitRequest.getTraitLogo());
-            Trait trait = traitOptional.get();
-            trait.setDescription(traitRequest.getDescription());
-            trait.setLogo(fileNameS3);
-            trait.setName(traitRequest.getName());
-            log.info("Start update trait={}", trait);
-            traitRepository.save(trait);
-            log.info("Finish update trait with traitID={}", traitID);
-            metaDataRes = new MetaDataRes<>(MetaDataEnum.SUCCESS);
-        } else {
-            log.warn("Invalid traitID={}", traitID);
-            metaDataRes = new MetaDataRes<>(MetaDataEnum.ID_INVALID);
+        if (traitOptional.isEmpty()) {
+            return new MetaDataRes<>(MetaDataEnum.TRAIT_ID_INVALID);
         }
-        return metaDataRes;
+        log.info("Finish get trait detail with traitRes={}", traitOptional.get());
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS, new TraitResponse(traitOptional.get()));
+    }
+
+    public MetaDataRes<?> updateTrait(TraitRequest traitRequest, String traitID, MultipartFile traitLogo) throws IOException {
+        Optional<Trait> traitOptional = traitRepository.findById(traitID);
+        if (traitOptional.isEmpty()) return new MetaDataRes<>(MetaDataEnum.TRAIT_ID_INVALID);
+        traitRequest.setFileNameTraitLogo(Objects.isNull(traitLogo) ? traitOptional.get().getLogo() : awsS3Service.upload(traitLogo));
+        Trait trait = new Trait(traitRequest, traitID);
+        log.info("Start update trait={}", trait);
+        traitRepository.save(trait);
+        log.info("Finish update trait with traitID={}", traitID);
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
     public MetaDataRes<?> deleteTrait(String traitID) {

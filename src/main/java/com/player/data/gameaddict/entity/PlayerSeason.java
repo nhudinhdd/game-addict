@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "player_season")
@@ -43,6 +44,15 @@ public class PlayerSeason extends BaseEntity {
     private String playerSubPosition;
     @Column(name = "avatar")
     private String avatar;
+
+    @Column(name = "alt_avatar")
+    private String altAvatar;
+
+    @Column(name = "title_avatar")
+    private String titleAvatar;
+
+    @Column(name = "caption_avatar")
+    private String captionAvatar;
     @Column(name = "reputation", nullable = false)
     private String reputation;
     @Basic
@@ -148,6 +158,9 @@ public class PlayerSeason extends BaseEntity {
     @Column(name = "strength", nullable = false)
     private short strength;
     @Basic
+    @Column(name = "stamina", nullable = false)
+    private short stamina;
+    @Basic
     @Column(name = "aggression", nullable = false)
     private short aggression;
     @Basic
@@ -183,6 +196,9 @@ public class PlayerSeason extends BaseEntity {
     private short def;
     @Column(name = "phy")
     private short phy;
+    @Column(name = "ovr")
+    private short ovr;
+
     @Override
     public String getId() {
         return playerSeasonID;
@@ -195,6 +211,9 @@ public class PlayerSeason extends BaseEntity {
         this.playerSubPosition = request.getPlayerSubPosition();
         this.playerPosition = request.getPlayerPosition();
         this.avatar = request.getAvatar();
+        this.altAvatar = request.getAltAvatar();
+        this.titleAvatar = request.getTitleAvatar();
+        this.captionAvatar = request.getCaptionAvatar();
         this.reputation = request.getReputation();
         this.workRateDef = request.getWorkRateDef();
         this.workRateAtt = request.getWorkRateAtt();
@@ -203,10 +222,10 @@ public class PlayerSeason extends BaseEntity {
         this.weight = request.getWeight();
         this.fitness = request.getFitness();
         this.leftFoot = request.getLeftFoot();
-        this.rightFoot =request.getRightFoot();
+        this.rightFoot = request.getRightFoot();
         this.skill = request.getSkill();
-        this.speedUp =request.getSpeedUp();
-        this.speedSprint =request.getSpeedSprint();
+        this.speedUp = request.getSpeedUp();
+        this.speedSprint = request.getSpeedSprint();
         this.dribbling = request.getDribbling();
         this.ballControl = request.getBallControl();
         this.shortPassing = request.getShortPassing();
@@ -230,6 +249,7 @@ public class PlayerSeason extends BaseEntity {
         this.intercep = request.getIntercep();
         this.tackleSliding = request.getTackleSliding();
         this.strength = request.getStrength();
+        this.stamina = request.getStamina();
         this.aggression = request.getAggression();
         this.jumping = request.getJumping();
         this.composure = request.getComposure();
@@ -244,6 +264,72 @@ public class PlayerSeason extends BaseEntity {
         this.dri = request.getDri();
         this.def = request.getDef();
         this.phy = request.getPhy();
+        this.ovr = request.getOvr();
         setNew(isNew);
+    }
+
+
+    public PlayerSeason(PlayerSeasonRequest request, PlayerInfo playerInfo, Season season, String playerSeasonID) {
+        this.playerSeasonID = playerSeasonID;
+        this.playerInfo = playerInfo;
+        this.season = season;
+        this.playerPosition = request.getPlayerPosition();
+        this.playerSubPosition = request.getPlayerSubPosition();
+        this.playerPosition = request.getPlayerPosition();
+        this.avatar = request.getAvatar();
+        this.altAvatar = request.getAltAvatar();
+        this.titleAvatar = request.getTitleAvatar();
+        this.captionAvatar = request.getCaptionAvatar();
+        this.reputation = request.getReputation();
+        this.workRateDef = request.getWorkRateDef();
+        this.workRateAtt = request.getWorkRateAtt();
+        this.salary = request.getSalary();
+        this.height = request.getHeight();
+        this.weight = request.getWeight();
+        this.fitness = request.getFitness();
+        this.leftFoot = request.getLeftFoot();
+        this.rightFoot = request.getRightFoot();
+        this.skill = request.getSkill();
+        this.speedUp = request.getSpeedUp();
+        this.speedSprint = request.getSpeedSprint();
+        this.dribbling = request.getDribbling();
+        this.ballControl = request.getBallControl();
+        this.shortPassing = request.getShortPassing();
+        this.finishing = request.getFinishing();
+        this.shotPower = request.getShotPower();
+        this.heading = request.getHeading();
+        this.longShot = request.getLongShot();
+        this.positioning = request.getPositioning();
+        this.vision = request.getVision();
+        this.reactions = request.getReactions();
+        this.volleys = request.getVolleys();
+        this.penalties = request.getPenalties();
+        this.crossing = request.getCrossing();
+        this.longPassing = request.getLongPassing();
+        this.freeKick = request.getFreeKick();
+        this.curve = request.getCurve();
+        this.agility = request.getAgility();
+        this.balance = request.getBalance();
+        this.marking = request.getMarking();
+        this.tackleStand = request.getTackleStand();
+        this.intercep = request.getIntercep();
+        this.tackleSliding = request.getTackleSliding();
+        this.strength = request.getStrength();
+        this.stamina = request.getStamina();
+        this.aggression = request.getAggression();
+        this.jumping = request.getJumping();
+        this.composure = request.getComposure();
+        this.gkDiv = request.getGkDiv();
+        this.gkHanding = request.getGkHanding();
+        this.gkKicking = request.getGkKicking();
+        this.gkReactions = request.getGkReactions();
+        this.gkPositioning = request.getGkPositioning();
+        this.pac = request.getPac();
+        this.sho = request.getSho();
+        this.pas = request.getPas();
+        this.dri = request.getDri();
+        this.def = request.getDef();
+        this.phy = request.getPhy();
+        this.ovr = request.getOvr();
     }
 }

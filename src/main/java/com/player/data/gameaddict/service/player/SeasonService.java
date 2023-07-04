@@ -10,10 +10,12 @@ import com.player.data.gameaddict.service.AwsS3Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,8 +41,21 @@ public class SeasonService {
         return new MetaDataRes<>(MetaDataEnum.SUCCESS, seasonResList);
     }
 
-    public MetaDataRes<?> insertSeason(SeasonRequest seasonRequest) throws IOException {
-        seasonRequest.setLogo(awsS3Service.upload(seasonRequest.getLogoFile()));
+    public MetaDataRes<SeasonRes> getSeasonDetail(String seasonID) {
+        log.info("Start get season detail with seasonID={}", seasonID);
+        Optional<Season> seasonOptional = seasonRepository.findById(seasonID);
+        if (seasonOptional.isEmpty()) return new MetaDataRes<>(MetaDataEnum.SEASON_ID_INVALID);
+        log.info("Finish get season detail={}", seasonOptional.get());
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS, new SeasonRes(seasonOptional.get()));
+    }
+
+    public MetaDataRes<?> insertSeason(SeasonRequest seasonRequest, MultipartFile logoFile, MultipartFile backgroundLogo, MultipartFile bigLogo) throws IOException {
+        boolean isExistsSeason = seasonRepository.existsByShortName(seasonRequest.getShortName());
+        if(isExistsSeason) return new MetaDataRes<>(MetaDataEnum.SEASON_SHORT_NAME_ALREADY_EXISTS);
+
+        seasonRequest.setLogo(awsS3Service.upload(logoFile));
+        seasonRequest.setBigLogo(awsS3Service.upload(bigLogo));
+        seasonRequest.setBackgroundLogo(awsS3Service.upload(backgroundLogo));
         Season season = new Season(seasonRequest, true);
         log.info("Start insert season={}", season);
         seasonRepository.save(season);
@@ -48,13 +63,18 @@ public class SeasonService {
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
-    public MetaDataRes<?> updateSeason(SeasonRequest seasonRequest, String seasonID) throws IOException {
+    public MetaDataRes<?> updateSeason(SeasonRequest seasonRequest, String seasonID, MultipartFile logoFile, MultipartFile backgroundLogo, MultipartFile bigLogo) throws IOException {
         Optional<Season> seasonOptional = seasonRepository.findById(seasonID);
         if(seasonOptional.isEmpty()){
             log.warn("Invalid seasonID={}", seasonID);
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
-        seasonRequest.setLogo(awsS3Service.upload(seasonRequest.getLogoFile()));
+        String logoURL = Objects.isNull(logoFile) ? seasonOptional.get().getLogo() : awsS3Service.upload(logoFile);
+        String bigLogoURL = Objects.isNull(bigLogo) ? seasonOptional.get().getBigLogo() : awsS3Service.upload(bigLogo);
+        String backgroundLogoUrl = Objects.isNull(backgroundLogo) ? seasonOptional.get().getBackgroundLogo() : awsS3Service.upload(backgroundLogo);
+        seasonRequest.setLogo(logoURL);
+        seasonRequest.setBackgroundLogo(backgroundLogoUrl);
+        seasonRequest.setBigLogo(bigLogoURL);
         Season season = new Season(seasonRequest, seasonID);
         log.info("Start update season={}", season);
         seasonRepository.save(season);

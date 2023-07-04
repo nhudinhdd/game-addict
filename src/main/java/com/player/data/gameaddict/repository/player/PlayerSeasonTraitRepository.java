@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlayerSeasonTraitRepository extends JpaRepository<PlayerSeasonTrait, String> {
+
+    void deleteByPlayerSeason_PlayerSeasonID(String playerSeasonID);
 }

@@ -20,8 +20,8 @@ public class PlayerSeasonController {
 
     private final PlayerSeasonService playerSeasonService;
 
-    @GetMapping("/detail")
-    public ResponseEntity<MetaDataRes<PlayerSeasonDetailRes>> getPlayerSeasonDetail(@RequestParam("player-season-id") String id) {
+    @GetMapping("/{player-season-id}")
+    public ResponseEntity<MetaDataRes<PlayerSeasonDetailRes>> getPlayerSeasonDetail(@PathVariable("player-season-id") String id) {
         MetaDataRes<PlayerSeasonDetailRes> metaDataRes = playerSeasonService.getPlayerSeasonDetail(id);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
@@ -39,5 +39,9 @@ public class PlayerSeasonController {
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 
+    @GetMapping("/popular")
+    public ResponseEntity<MetaDataRes<List<String>>> getPopularPlayer() {
+        MetaDataRes<List<String>> metaDataRes =  playerSeasonService.getPopularPlayer();
+        return new ResponseEntity<>(metaDataRes, HttpStatus.OK);    }
 
 }

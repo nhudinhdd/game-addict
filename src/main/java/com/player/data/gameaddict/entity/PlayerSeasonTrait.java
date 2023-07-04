@@ -38,5 +38,6 @@ public class PlayerSeasonTrait extends BaseEntity {
     public PlayerSeasonTrait(PlayerSeason playerSeason, Trait trait) {
         this.playerSeason =playerSeason;
         this.trait = trait;
+        setNew(true);
     }
 }

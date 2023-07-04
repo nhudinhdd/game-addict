@@ -31,13 +31,13 @@ public class ApplicationSecurityConfig {
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/management/**").hasAuthority(MANAGER_READ.getPermission())
-                        .requestMatchers(HttpMethod.POST, "/api/management/**").hasAnyAuthority(MANAGER_CREATE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, "/api/management/**").hasAnyAuthority(MANAGER_UPDATE.getPermission())
-                        .requestMatchers(HttpMethod.DELETE, "api/management/**").hasAnyAuthority(MANAGER_DELETE.getPermission())
-                        .requestMatchers("/api//management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                        .requestMatchers("/api/auth/register").hasAuthority(ADMIN_CREATE.getPermission())
-                        .requestMatchers("/api/auth/register").hasRole(ADMIN.name())
+//                        .requestMatchers(HttpMethod.GET, "/api/management/**").hasAuthority(MANAGER_READ.getPermission())
+//                        .requestMatchers(HttpMethod.POST, "/api/management/**").hasAnyAuthority(MANAGER_CREATE.getPermission())
+//                        .requestMatchers(HttpMethod.PUT, "/api/management/**").hasAnyAuthority(MANAGER_UPDATE.getPermission())
+//                        .requestMatchers(HttpMethod.DELETE, "api/management/**").hasAnyAuthority(MANAGER_DELETE.getPermission())
+//                        .requestMatchers("/api//management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+//                        .requestMatchers("/api/auth/register").hasAuthority(ADMIN_CREATE.getPermission())
+//                        .requestMatchers("/api/auth/register").hasRole(ADMIN.name())
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
 

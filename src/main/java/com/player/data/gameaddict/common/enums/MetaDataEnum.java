@@ -14,6 +14,10 @@ public enum MetaDataEnum {
     UNAUTHORIZED(401, "Unauthorized"),
     USER_NAME_EXITS(1004, "User name has been exits"),
     CONTINENT_ID_INVALID(1005, "Continent ID invalid"),
+    TOUR_ID_INVALID(1006, "Tournament ID invalid"),
+    PLAYER_TEAM_ID_INVALID(1008, "Player Team ID invalid"),
+    SEASON_SHORT_NAME_ALREADY_EXISTS(1007, "Season short name already exists"),
+    PLAYER_SEASON_ALREADY_EXISTS(1008, "Player Season Invalid"),
     ;
     private int code;
     private String message;

@@ -6,14 +6,12 @@ import com.player.data.gameaddict.service.player.PlayerTeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/management/player-team")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PlayerTeamManagerController {
 
     private final PlayerTeamService playerTeamService;
@@ -21,6 +19,13 @@ public class PlayerTeamManagerController {
     @PostMapping
     public ResponseEntity<MetaDataRes<?>> insertPlayerTeam(@RequestBody PlayerTeamRequest playerTeamRequest) {
         MetaDataRes<?> metaDataRes = playerTeamService.insertPlayerTeam(playerTeamRequest);
+        return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
+    }
+
+    @PutMapping("{player-team-id}")
+    public ResponseEntity<MetaDataRes<?>> updatePlayerTeam(@RequestBody PlayerTeamRequest playerTeamRequest,
+                                                           @PathVariable("player-team-id") String playerTeamID) {
+        MetaDataRes<?> metaDataRes = playerTeamService.updatePlayerTeam(playerTeamRequest, playerTeamID);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 }

@@ -9,7 +9,16 @@ public class SeasonRequest {
 
     private String shortName;
     private String fullName;
-    private MultipartFile logoFile;
+    private String altLogo;
+    private String titleLogo;
+    private String captionLogo;
+    private String altBackgroundLogo;
+    private String titleBackgroundLogo;
+    private String captionBackgroundLogo;
     @JsonIgnore
     private String logo;
+    @JsonIgnore
+    private String backgroundLogo;
+    @JsonIgnore
+    private String bigLogo;
 }

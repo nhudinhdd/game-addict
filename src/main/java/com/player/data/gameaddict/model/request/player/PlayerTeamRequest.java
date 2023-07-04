@@ -6,7 +6,7 @@ import lombok.Data;
 public class PlayerTeamRequest {
 
     private String playerID;
-    private String teamId;
+    private String teamID;
     private String starYear;
     private String endYear;
 }

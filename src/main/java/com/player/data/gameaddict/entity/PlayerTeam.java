@@ -34,6 +34,14 @@ public class PlayerTeam extends BaseEntity {
     @Column(name = "end_year")
     private String endYear;
 
+    public PlayerTeam(PlayerTeamRequest request, PlayerInfo playerInfo, Team team, String playerTeamID) {
+        this.playerTeamID = playerTeamID;
+        this.playerInfo = playerInfo;
+        this.team = team;
+        this.startYear =request.getStarYear();
+        this.endYear = request.getEndYear();
+    }
+
     @Override
     public String getId() {
         return playerTeamID;
@@ -44,5 +52,6 @@ public class PlayerTeam extends BaseEntity {
         this.team = team;
         this.startYear =request.getStarYear();
         this.endYear = request.getEndYear();
+        setNew(true);
     }
 }

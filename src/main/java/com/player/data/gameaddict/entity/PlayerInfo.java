@@ -44,9 +44,7 @@ public class PlayerInfo extends BaseEntity {
     )
     private List<PlayerSeason> playerSeasons;
     @OneToMany(
-            mappedBy = "playerInfo",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+            mappedBy = "playerInfo"
     )
     private List<PlayerTeam> playerTeams;
 
@@ -76,5 +74,6 @@ public class PlayerInfo extends BaseEntity {
         this.lastName = request.getLastName();
         this.birthday = DateUtil.stringToLocalDate(request.getBirthday());
         this.playerID = playerID;
+        this.playerStory = request.getPlayerStory();
     }
 }

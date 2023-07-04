@@ -8,25 +8,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @RestController
 @RequestMapping("api/management/season")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class SeasonManagementController {
 
     private final SeasonService service;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MetaDataRes<?>> insertTeam(@ModelAttribute SeasonRequest seasonRequest) throws IOException {
-        MetaDataRes<?> metaDataRes = service.insertSeason(seasonRequest);
+    public ResponseEntity<MetaDataRes<?>> insertTeam(@ModelAttribute SeasonRequest seasonRequest,
+                                                     @RequestParam("season-logo") MultipartFile logoFile,
+                                                     @RequestParam(value = "season-big-logo", required = false) MultipartFile bigLogo,
+                                                     @RequestParam("season-background-logo") MultipartFile backgroundLogo) throws IOException {
+        MetaDataRes<?> metaDataRes = service.insertSeason(seasonRequest, logoFile, backgroundLogo, bigLogo);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 
     @PutMapping(value = "{season-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MetaDataRes<?>> updateTeam(@ModelAttribute SeasonRequest seasonRequest, @PathVariable("season-id") String seasonID) throws IOException {
-        MetaDataRes<?> metaDataRes = service.updateSeason(seasonRequest, seasonID);
+    public ResponseEntity<MetaDataRes<?>> updateTeam(@ModelAttribute SeasonRequest seasonRequest,
+                                                     @PathVariable("season-id") String seasonID,
+                                                     @RequestParam(value = "season-logo", required = false) MultipartFile logoFile,
+                                                     @RequestParam(value = "season-big-logo", required = false) MultipartFile bigLogo,
+                                                     @RequestParam(value = "season-background-logo", required = false) MultipartFile backgroundLogo) throws IOException {
+        MetaDataRes<?> metaDataRes = service.updateSeason(seasonRequest, seasonID, logoFile, backgroundLogo, bigLogo);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 

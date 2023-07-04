@@ -46,4 +46,13 @@ public class Continent extends BaseEntity{
     public Continent(String continentID) {
         this.continentID = continentID;
     }
+
+    @Override
+    public String toString() {
+        return "Continent{" +
+                "continentID='" + continentID + '\'' +
+                ", continentName='" + continentName + '\'' +
+                ", nations=" + nations +
+                '}';
+    }
 }
