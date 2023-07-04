@@ -1,7 +1,7 @@
 package com.player.data.gameaddict.controller.player;
 
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
-import com.player.data.gameaddict.model.response.player.trait.TraitGetResponse;
+import com.player.data.gameaddict.model.response.player.TraitResponse;
 import com.player.data.gameaddict.service.player.TraitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,14 @@ public class TraitController {
     private final  TraitService traitService;
 
     @GetMapping(value = "")
-    public ResponseEntity<MetaDataRes<List<TraitGetResponse>>> getTraits() {
-        MetaDataRes<List<TraitGetResponse>> metaDataRes = traitService.getTraits();
+    public ResponseEntity<MetaDataRes<List<TraitResponse>>> getTraits() {
+        MetaDataRes<List<TraitResponse>> metaDataRes = traitService.getTraits();
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 
+    @GetMapping(value = "{trait-id}")
+    public ResponseEntity<MetaDataRes<TraitResponse>> getTraitDetail(@PathVariable("trait-id") String traitID) {
+        MetaDataRes<TraitResponse> metaDataRes = traitService.getTraitDetail(traitID);
+        return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
+    }
 }

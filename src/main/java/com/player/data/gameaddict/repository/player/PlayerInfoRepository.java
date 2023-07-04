@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PlayerInfoRepository extends JpaRepository<PlayerInfo, String> {
+    Page<PlayerInfo> findAllByLastNameContainingIgnoreCaseAndNationId(String lastName, Pageable pageable, String nationID);
     Page<PlayerInfo> findAllByLastNameContainingIgnoreCase(String lastName, Pageable pageable);
 //    Page<PlayerInfo> findMine(Pageable pageable);
 

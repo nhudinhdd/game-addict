@@ -26,14 +26,14 @@ public class AwsS3Service {
     public String upload(MultipartFile file) throws IOException {
         String fileName = "";
         if(Objects.isNull(file)) return fileName;
-        fileName = awsCloudConfigValue.getBaseURL().concat(System.currentTimeMillis()+"_"+file.getOriginalFilename());
+        fileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
         try {
             log.info("start upload file to s3 with fileName = {}", fileName);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             amazonS3.putObject(awsCloudConfigValue.getBucketName(), fileName, file.getInputStream(), metadata);
             log.info("finish upload file to s3 with fileName = {}", fileName);
-            return fileName;
+            return awsCloudConfigValue.getBaseURL().concat(fileName);
         } catch (IOException ioe) {
             log.info("upload file to s3 failed with fileName = {}, ex IOException = {}", fileName, ioe.getMessage());
             throw new IOException("File upload invalid");

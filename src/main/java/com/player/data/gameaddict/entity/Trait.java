@@ -39,6 +39,9 @@ public class Trait extends BaseEntity {
         this.name = traitRequest.getName();
         this.description = traitRequest.getDescription();
         this.logo = traitRequest.getFileNameTraitLogo();
+        this.altLogoTrait = traitRequest.getAltLogo();
+        this.titleLogoTrait = traitRequest.getAltLogo();
+        this.captionLogoTrait = traitRequest.getCaptionLogo();
         setNew(isNew);
     }
 

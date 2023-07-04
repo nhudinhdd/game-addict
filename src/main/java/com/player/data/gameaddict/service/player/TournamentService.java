@@ -5,9 +5,11 @@ import com.player.data.gameaddict.entity.Team;
 import com.player.data.gameaddict.entity.Tournament;
 import com.player.data.gameaddict.model.request.player.TournamentRequest;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
+import com.player.data.gameaddict.model.response.player.TournamentRes;
 import com.player.data.gameaddict.repository.player.TournamentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,23 @@ public class TournamentService {
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
-    public MetaDataRes<List<Tournament>> getTournaments() {
+    public MetaDataRes<List<TournamentRes>> getTournaments() {
         log.info("Start get tournament");
+        List<TournamentRes> tournamentRes = new ArrayList<>();
         List<Tournament> tournaments =  tournamentRepository.findAll();
-        log.info("Finish get tournament with size={}", tournaments.size());
-        return new MetaDataRes<>(MetaDataEnum.SUCCESS, tournaments);
+        if(!CollectionUtils.isEmpty(tournaments))
+            tournamentRes = tournaments.stream().map(TournamentRes::new).toList();
+        log.info("Finish get tournament with size={}", tournamentRes.size());
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS, tournamentRes);
+    }
+
+    public MetaDataRes<TournamentRes> getTournamentDetail(String tourId) {
+        log.info("Start get tournament detail with tourId={}", tourId);
+        Optional<Tournament> tournamentOptional =  tournamentRepository.findById(tourId);
+        if(tournamentOptional.isEmpty())
+            return new MetaDataRes<>(MetaDataEnum.TOUR_ID_INVALID);
+        log.info("Finish get tournament={}", tournamentOptional.get());
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS, new TournamentRes(tournamentOptional.get()));
     }
 
     public MetaDataRes<List<Team>> getTeamByTournamentID(String tourID) {

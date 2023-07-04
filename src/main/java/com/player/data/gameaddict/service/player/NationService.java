@@ -4,6 +4,7 @@ import com.player.data.gameaddict.common.enums.MetaDataEnum;
 import com.player.data.gameaddict.entity.Continent;
 import com.player.data.gameaddict.entity.Nation;
 import com.player.data.gameaddict.model.request.player.NationRequest;
+import com.player.data.gameaddict.model.request.player.NationUpdateRequest;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.model.response.player.NationRes;
 import com.player.data.gameaddict.repository.player.ContinentRepository;
@@ -13,10 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -67,8 +70,9 @@ public class NationService {
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
-    public MetaDataRes<?> updateNation(NationRequest nationRequest, String nationID) throws IOException {
-        if (!nationRepository.existsById(nationID)) {
+    public MetaDataRes<?> updateNation(NationUpdateRequest nationRequest, String nationID, MultipartFile file) throws IOException {
+        Optional<Nation> nationOptional = nationRepository.findById(nationID);
+        if (nationOptional.isEmpty()) {
             log.warn("Invalid nationID = {}", nationID);
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
@@ -76,7 +80,9 @@ public class NationService {
             log.warn("Invalid continentID = {}", nationRequest.getContinentID());
             return new MetaDataRes<>(MetaDataEnum.ID_INVALID);
         }
-        nationRequest.setEnsign(awsS3Service.upload(nationRequest.getEnsignLogo()));
+
+        String fileURL = Objects.isNull(file) ? nationOptional.get().getEnsign() : awsS3Service.upload(file);
+        nationRequest.setEnsign(fileURL);
         Nation nation = new Nation(nationRequest, nationRequest.getContinentID(), nationID);
         log.info("Start update nation = {}", nation);
         nationRepository.save(nation);

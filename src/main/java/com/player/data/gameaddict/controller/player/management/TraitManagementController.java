@@ -2,7 +2,6 @@ package com.player.data.gameaddict.controller.player.management;
 
 import com.player.data.gameaddict.model.request.player.TraitRequest;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
-import com.player.data.gameaddict.model.response.player.trait.TraitInsertResponse;
 import com.player.data.gameaddict.service.player.TraitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,8 @@ public class TraitManagementController {
     private final TraitService traitService;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MetaDataRes<TraitInsertResponse>> insertTrait(@ModelAttribute TraitRequest traitRequest) throws IOException {
-        MetaDataRes<TraitInsertResponse> metaDataRes = traitService.insertPlayerTrait(traitRequest);
+    public ResponseEntity<MetaDataRes<?>> insertTrait(@ModelAttribute TraitRequest traitRequest) throws IOException {
+        MetaDataRes<?> metaDataRes = traitService.insertPlayerTrait(traitRequest);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 

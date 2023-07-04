@@ -1,6 +1,7 @@
 package com.player.data.gameaddict.controller.player.management;
 
 import com.player.data.gameaddict.model.request.player.NationRequest;
+import com.player.data.gameaddict.model.request.player.NationUpdateRequest;
 import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.service.player.NationService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -33,9 +35,10 @@ public class NationManagementController {
     }
 
     @PutMapping(value = "/{nation-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MetaDataRes<?>> updateNation(@ModelAttribute NationRequest nationRequest,
-                                                       @PathVariable("nation-id") String nationID) throws IOException {
-        MetaDataRes<?> metaDataRes = nationService.updateNation(nationRequest, nationID);
+    public ResponseEntity<MetaDataRes<?>> updateNation(@ModelAttribute NationUpdateRequest nationRequest,
+                                                       @PathVariable("nation-id") String nationID,
+                                                        @RequestParam(name = "ensignLogo", required = false) MultipartFile file) throws IOException {
+        MetaDataRes<?> metaDataRes = nationService.updateNation(nationRequest, nationID, file);
         return new ResponseEntity<>(metaDataRes, HttpStatus.OK);
     }
 }

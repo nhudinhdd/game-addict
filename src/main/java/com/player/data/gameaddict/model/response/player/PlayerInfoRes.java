@@ -12,6 +12,7 @@ public class PlayerInfoRes {
     private String firstName;
     private String lastName;
     private String birthDay;
+    private String playerStory;
 
     public PlayerInfoRes(PlayerInfo playerInfo) {
         this.playerID = playerInfo.getPlayerID();
@@ -19,5 +20,6 @@ public class PlayerInfoRes {
         this.firstName = playerInfo.getFirstName();
         this.lastName = playerInfo.getLastName();
         this.birthDay = DateUtil.localDateToString(playerInfo.getBirthday());
+        this.playerStory = playerInfo.getPlayerStory();
     }
 }

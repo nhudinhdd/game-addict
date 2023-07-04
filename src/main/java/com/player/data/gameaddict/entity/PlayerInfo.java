@@ -76,5 +76,6 @@ public class PlayerInfo extends BaseEntity {
         this.lastName = request.getLastName();
         this.birthday = DateUtil.stringToLocalDate(request.getBirthday());
         this.playerID = playerID;
+        this.playerStory = request.getPlayerStory();
     }
 }

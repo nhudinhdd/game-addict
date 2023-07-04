@@ -14,6 +14,7 @@ public enum MetaDataEnum {
     UNAUTHORIZED(401, "Unauthorized"),
     USER_NAME_EXITS(1004, "User name has been exits"),
     CONTINENT_ID_INVALID(1005, "Continent ID invalid"),
+    TOUR_ID_INVALID(1006, "Tournament ID invalid"),
     ;
     private int code;
     private String message;

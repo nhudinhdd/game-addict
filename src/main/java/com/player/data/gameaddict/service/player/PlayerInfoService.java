@@ -10,6 +10,7 @@ import com.player.data.gameaddict.model.response.common.MetaDataRes;
 import com.player.data.gameaddict.repository.player.NationRepository;
 import com.player.data.gameaddict.repository.player.PlayerInfoRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,14 +59,28 @@ public class PlayerInfoService {
         return new MetaDataRes<>(MetaDataEnum.SUCCESS);
     }
 
-    public MetaDataList<List<PlayerInfoRes>> getPlayerInfos(String lastName, int page, int pageSize) {
+    public MetaDataList<List<PlayerInfoRes>> getPlayerInfos(String lastName, int page, int pageSize, String nationID) {
         log.info("Start get list player info by lastName = {}, page={}, pageSize={}", lastName, page, pageSize);
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<PlayerInfo> playerInfoPage = playerInfoRepository.findAllByLastNameContainingIgnoreCase(lastName,pageable);
+        Page<PlayerInfo> playerInfoPage;
+        if(StringUtils.isBlank(nationID)){
+            playerInfoPage = playerInfoRepository.findAllByLastNameContainingIgnoreCase(lastName,pageable);
+        } else {
+            playerInfoPage = playerInfoRepository.findAllByLastNameContainingIgnoreCaseAndNationId(lastName, pageable, nationID);
+        }
         List<PlayerInfo> playerInfoList = playerInfoPage.getContent();
         int totalPage = playerInfoPage.getTotalPages();
         List<PlayerInfoRes> playerInfoRes = playerInfoList.stream().map(PlayerInfoRes::new).toList();
         log.info("Finish get list player info with size={}", playerInfoRes.size());
         return new MetaDataList<>(MetaDataEnum.SUCCESS, playerInfoRes, totalPage);
+    }
+
+    public MetaDataRes<PlayerInfoRes> getPlayerInfoDetail(String playerInfoID) {
+        log.info("Start get getPlayerInfoDetail playerInfoID = {}", playerInfoID);
+        Optional<PlayerInfo> playerInfoOptional = playerInfoRepository.findById(playerInfoID);
+        if(playerInfoOptional.isEmpty()) return new MetaDataRes<>(MetaDataEnum.PLAYER_INFO_ID_INVALID);
+
+        log.info("Finish get getPlayerInfoDetail playerInfoID={}", playerInfoID);
+        return new MetaDataRes<>(MetaDataEnum.SUCCESS,new PlayerInfoRes(playerInfoOptional.get()));
     }
 }
